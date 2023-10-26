@@ -1,5 +1,5 @@
 module "labels" {
-  source      = "git::git@github.com:opz0/terraform-aws-labels.git?ref=master"
+  source      = "git::git@github.com:opz0/terraform-aws-labels.git?ref=v1.0.0"
   name        = var.name
   environment = var.environment
   managedby   = var.managedby
@@ -34,13 +34,13 @@ resource "aws_vpc" "default" {
 
 resource "aws_vpc_ipv4_cidr_block_association" "default" {
   for_each   = toset(var.additional_cidr_block)
-  vpc_id     = join("", aws_vpc.default.*.id)
+  vpc_id     = join("", aws_vpc.default[*].id)
   cidr_block = each.key
 }
 
 resource "aws_internet_gateway" "default" {
   count  = var.enable ? 1 : 0
-  vpc_id = join("", aws_vpc.default.*.id)
+  vpc_id = join("", aws_vpc.default[*].id)
   tags = merge(
     module.labels.tags,
     {
@@ -51,13 +51,13 @@ resource "aws_internet_gateway" "default" {
 
 resource "aws_egress_only_internet_gateway" "default" {
   count  = var.enable && var.enabled_ipv6_egress_only_internet_gateway ? 1 : 0
-  vpc_id = join("", aws_vpc.default.*.id)
+  vpc_id = join("", aws_vpc.default[*].id)
   tags   = module.labels.tags
 }
 
 resource "aws_default_security_group" "default" {
   count  = var.enable && var.restrict_default_sg == true ? 1 : 0
-  vpc_id = join("", aws_vpc.default.*.id)
+  vpc_id = join("", aws_vpc.default[*].id)
   dynamic "ingress" {
     for_each = var.default_security_group_ingress
     content {
@@ -89,14 +89,14 @@ resource "aws_default_security_group" "default" {
   tags = merge(
     module.labels.tags,
     {
-      "Name" = format("%s-default-sg", module.labels.id)
+      "Name" = format("%s-vpc-default-sg", module.labels.id)
     }
   )
 }
 
 resource "aws_default_route_table" "default" {
   count                  = var.enable && var.aws_default_route_table ? 1 : 0
-  default_route_table_id = aws_vpc.default[0].default_route_table_id
+  default_route_table_id = join("", aws_vpc.default[*].default_route_table_id)
   dynamic "route" {
     for_each = var.default_route_table_routes
     content {
@@ -140,8 +140,8 @@ resource "aws_vpc_dhcp_options" "vpc_dhcp" {
 
 resource "aws_vpc_dhcp_options_association" "this" {
   count           = var.enable && var.enable_dhcp_options ? 1 : 0
-  vpc_id          = join("", aws_vpc.default.*.id)
-  dhcp_options_id = join("", aws_vpc_dhcp_options.vpc_dhcp.*.id)
+  vpc_id          = join("", aws_vpc.default[*].id)
+  dhcp_options_id = join("", aws_vpc_dhcp_options.vpc_dhcp[*].id)
 }
 
 data "aws_caller_identity" "current" {}
@@ -156,12 +156,12 @@ resource "aws_kms_key" "kms" {
 resource "aws_kms_alias" "kms-alias" {
   count         = var.enable && var.enable_flow_log && var.flow_log_destination_arn == null ? 1 : 0
   name          = format("alias/%s-flow-log-key", module.labels.id)
-  target_key_id = aws_kms_key.kms[0].key_id
+  target_key_id = join("", aws_kms_key.kms[*].key_id)
 }
 
 resource "aws_kms_key_policy" "example" {
   count  = var.enable && var.enable_flow_log && var.flow_log_destination_arn == null && var.flow_log_destination_type == "cloud-watch-logs" ? 1 : 0
-  key_id = aws_kms_key.kms[0].id
+  key_id = join("", aws_kms_key.kms[*].id)
   policy = jsonencode({
     "Version" : "2012-10-17",
     "Id" : "key-default-1",
@@ -198,7 +198,7 @@ resource "aws_s3_bucket" "mybucket" {
 
 resource "aws_s3_bucket_ownership_controls" "example" {
   count  = var.enable && var.enable_flow_log && var.flow_log_destination_arn == null && var.flow_log_destination_type == "s3" ? 1 : 0
-  bucket = join("", aws_s3_bucket.mybucket.*.id)
+  bucket = join("", aws_s3_bucket.mybucket[*].id)
   rule {
     object_ownership = "BucketOwnerPreferred"
   }
@@ -207,13 +207,13 @@ resource "aws_s3_bucket_ownership_controls" "example" {
 resource "aws_s3_bucket_acl" "example" {
   count      = var.enable && var.enable_flow_log && var.flow_log_destination_arn == null && var.flow_log_destination_type == "s3" ? 1 : 0
   depends_on = [aws_s3_bucket_ownership_controls.example]
-  bucket     = join("", aws_s3_bucket.mybucket.*.id)
+  bucket     = join("", aws_s3_bucket.mybucket[*].id)
   acl        = "private"
 }
 
 resource "aws_s3_bucket_public_access_block" "example" {
   count                   = var.enable && var.enable_flow_log && var.flow_log_destination_arn == null && var.flow_log_destination_type == "s3" ? 1 : 0
-  bucket                  = aws_s3_bucket.mybucket[0].id
+  bucket                  = join("", aws_s3_bucket.mybucket[*].id)
   block_public_acls       = true
   block_public_policy     = true
   ignore_public_acls      = true
@@ -222,10 +222,10 @@ resource "aws_s3_bucket_public_access_block" "example" {
 
 resource "aws_s3_bucket_server_side_encryption_configuration" "example" {
   count  = var.enable && var.enable_flow_log && var.flow_log_destination_arn == null && var.flow_log_destination_type == "s3" ? 1 : 0
-  bucket = aws_s3_bucket.mybucket[0].id
+  bucket = join("", aws_s3_bucket.mybucket[*].id)
   rule {
     apply_server_side_encryption_by_default {
-      kms_master_key_id = aws_kms_key.kms[0].arn
+      kms_master_key_id = join("", aws_kms_key.kms[*].arn)
       sse_algorithm     = var.s3_sse_algorithm //"aws:kms"
     }
   }
@@ -233,7 +233,7 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "example" {
 
 resource "aws_s3_bucket_policy" "block-http" {
   count  = var.enable && var.enable_flow_log && var.flow_log_destination_arn == null && var.flow_log_destination_type == "s3" && var.block_http_traffic ? 1 : 0
-  bucket = aws_s3_bucket.mybucket[0].id
+  bucket = join("", aws_s3_bucket.mybucket[*].id)
 
   policy = jsonencode({
     Version = "2012-10-17"
@@ -245,8 +245,8 @@ resource "aws_s3_bucket_policy" "block-http" {
         "Principal" : "*",
         "Action" : "s3:*",
         "Resource" : [
-          "${aws_s3_bucket.mybucket[0].arn}",
-          "${aws_s3_bucket.mybucket[0].arn}/*",
+          join("", aws_s3_bucket.mybucket[*].arn),
+          "${join("", aws_s3_bucket.mybucket[*].arn)}/*",
         ],
         "Condition" : {
           "Bool" : {
@@ -262,14 +262,14 @@ resource "aws_cloudwatch_log_group" "flow_log" {
   count             = var.enable && var.enable_flow_log && var.flow_log_destination_arn == null && var.flow_log_destination_type == "cloud-watch-logs" ? 1 : 0
   name              = format("%s-vpc-flow-log-cloudwatch_log_group", module.labels.id)
   retention_in_days = var.flow_log_cloudwatch_log_group_retention_in_days
-  kms_key_id        = aws_kms_key.kms[0].arn
+  kms_key_id        = join("", aws_kms_key.kms[*].arn)
   tags              = module.labels.tags
 }
 
 resource "aws_iam_role" "vpc_flow_log_cloudwatch" {
   count                = var.enable && var.enable_flow_log && var.flow_log_destination_arn == null && var.flow_log_destination_type == "cloud-watch-logs" && var.create_flow_log_cloudwatch_iam_role ? 1 : 0
   name                 = format("%s-vpc-flow-log-role", module.labels.id)
-  assume_role_policy   = data.aws_iam_policy_document.flow_log_cloudwatch_assume_role[0].json
+  assume_role_policy   = join("", data.aws_iam_policy_document.flow_log_cloudwatch_assume_role[*].json)
   permissions_boundary = var.vpc_flow_log_permissions_boundary
   tags                 = module.labels.tags
 }
@@ -289,14 +289,14 @@ data "aws_iam_policy_document" "flow_log_cloudwatch_assume_role" {
 
 resource "aws_iam_role_policy_attachment" "vpc_flow_log_cloudwatch" {
   count      = var.enable && var.enable_flow_log && var.flow_log_destination_arn == null && var.flow_log_destination_type == "cloud-watch-logs" && var.create_flow_log_cloudwatch_iam_role ? 1 : 0
-  role       = aws_iam_role.vpc_flow_log_cloudwatch[0].name
-  policy_arn = aws_iam_policy.vpc_flow_log_cloudwatch[0].arn
+  role       = join("", aws_iam_role.vpc_flow_log_cloudwatch[*].name)
+  policy_arn = join("", aws_iam_policy.vpc_flow_log_cloudwatch[*].arn)
 }
 
 resource "aws_iam_policy" "vpc_flow_log_cloudwatch" {
   count  = var.enable && var.enable_flow_log && var.flow_log_destination_arn == null && var.flow_log_destination_type == "cloud-watch-logs" && var.create_flow_log_cloudwatch_iam_role ? 1 : 0
   name   = format("%s-vpc-flow-log-to-cloudwatch", module.labels.id)
-  policy = data.aws_iam_policy_document.vpc_flow_log_cloudwatch[0].json
+  policy = join("", data.aws_iam_policy_document.vpc_flow_log_cloudwatch[*].json)
   tags   = module.labels.tags
 }
 
@@ -318,11 +318,11 @@ data "aws_iam_policy_document" "vpc_flow_log_cloudwatch" {
 resource "aws_flow_log" "vpc_flow_log" {
   count                    = var.enable && var.enable_flow_log == true ? 1 : 0
   log_destination_type     = var.flow_log_destination_type
-  log_destination          = var.flow_log_destination_arn == null ? (var.flow_log_destination_type == "s3" ? aws_s3_bucket.mybucket[0].arn : aws_cloudwatch_log_group.flow_log[0].arn) : var.flow_log_destination_arn
+  log_destination          = var.flow_log_destination_arn == null ? (var.flow_log_destination_type == "s3" ? join("", aws_s3_bucket.mybucket[*].arn) : join("", aws_cloudwatch_log_group.flow_log[*].arn)) : var.flow_log_destination_arn
   log_format               = var.flow_log_log_format
-  iam_role_arn             = var.create_flow_log_cloudwatch_iam_role ? aws_iam_role.vpc_flow_log_cloudwatch[0].arn : var.flow_log_iam_role_arn
+  iam_role_arn             = var.create_flow_log_cloudwatch_iam_role ? join("", aws_iam_role.vpc_flow_log_cloudwatch[*].arn) : var.flow_log_iam_role_arn
   traffic_type             = var.flow_log_traffic_type
-  vpc_id                   = join("", aws_vpc.default.*.id)
+  vpc_id                   = join("", aws_vpc.default[*].id)
   max_aggregation_interval = var.flow_log_max_aggregation_interval
   dynamic "destination_options" {
     for_each = var.flow_log_destination_type == "s3" ? [true] : []
@@ -335,12 +335,11 @@ resource "aws_flow_log" "vpc_flow_log" {
   }
   tags = module.labels.tags
 }
-##----------------------------------------------------------------------------------------------------
-## Below resource will deploy default network acl for vpc communication.
-##-------------------------------------------------------------------------------------------------------
+
+
 resource "aws_default_network_acl" "default" {
   count                  = var.enable && var.aws_default_network_acl ? 1 : 0
-  default_network_acl_id = aws_vpc.default[0].default_network_acl_id
+  default_network_acl_id = join("", aws_vpc.default[*].default_network_acl_id)
   dynamic "ingress" {
     for_each = var.default_network_acl_ingress
     content {

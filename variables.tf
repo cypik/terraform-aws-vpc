@@ -1,4 +1,3 @@
-#Description : Terraform label module variables.
 variable "name" {
   type        = string
   default     = ""
@@ -29,8 +28,6 @@ variable "managedby" {
   description = "ManagedBy, eg 'Opz0'"
 }
 
-#Module      : VPC
-#Description : Terraform VPC module variables.
 variable "enable" {
   type        = bool
   default     = true
@@ -79,11 +76,9 @@ variable "dns_support_enabled" {
   description = "A boolean flag to enable/disable DNS support in the VPC."
 }
 
-#Module      : FLOW LOG
-#Description : Terraform flow log module variables.
 variable "enable_flow_log" {
   type        = bool
-  default     = false
+  default     = true
   description = "Enable vpc_flow_log logs."
 }
 
@@ -303,7 +298,7 @@ variable "flow_log_traffic_type" {
 
 variable "create_flow_log_cloudwatch_iam_role" {
   type        = bool
-  default     = false
+  default     = true
   description = "Flag to be set true when cloudwatch iam role is to be created when flow log destination type is set to cloudwatch logs."
 }
 
