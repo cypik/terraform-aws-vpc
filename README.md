@@ -58,7 +58,7 @@ You will be prompted to confirm the destruction of the resources. Enter yes to p
 If you would like to contribute to this project, please follow these guidelines for code contributions and issue reporting.
 
 # License
-This project is licensed under the MIT License - see the [LICENSE](https://github.com/opz0/terraform-aws-vpc/blob/readme/_example/LICENSE.txt) file for details.
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/opz0/terraform-aws-vpc/blob/readme/LICENSE.txt) file for details.
 
 For more information on using Terraform with AWS, refer to the official [Terraform AWS provider documentatio](https://registry.terraform.io/providers/hashicorp/aws/latest/docs)
 
