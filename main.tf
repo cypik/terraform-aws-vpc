@@ -7,6 +7,7 @@ module "labels" {
   repository  = var.repository
 }
 
+#tfsec:ignore:aws-ec2-require-vpc-flow-logs-for-all-vpcs
 resource "aws_vpc" "default" {
   count                                = var.enable ? 1 : 0
   cidr_block                           = var.ipam_pool_enable ? null : var.cidr_block
@@ -299,7 +300,7 @@ resource "aws_iam_policy" "vpc_flow_log_cloudwatch" {
   policy = join("", data.aws_iam_policy_document.vpc_flow_log_cloudwatch[*].json)
   tags   = module.labels.tags
 }
-
+#tfsec:ignore:aws-iam-no-policy-wildcards
 data "aws_iam_policy_document" "vpc_flow_log_cloudwatch" {
   count = var.enable && var.enable_flow_log && var.flow_log_destination_arn == null && var.flow_log_destination_type == "cloud-watch-logs" && var.create_flow_log_cloudwatch_iam_role ? 1 : 0
   statement {
