@@ -20,19 +20,11 @@ This Terraform module creates an AWS Virtual Private Cloud (VPC) along with addi
 
 ## Usage
 
-1. Ensure you have the required provider configured in your Terraform environment.
+To use this module in your Terraform configurations, you can include it as follows:
 
-    ```hcl
-    provider "aws" {
-      region = "us-west-1"  # Update with your desired region
-    }
-    ```
-
-2. Use the module by referencing its source and providing the required variables.
-
-    ```hcl
+```hcl
     module "vpc" {
-      source                = "./../"  # Update with the correct path to the module
+      source                = "git::https://github.com/opz0/terraform-aws-vpc.git?ref=v1.0.0"
       name                  = "app"
       environment           = "test"
       cidr_block            = "10.0.0.0/16"
