@@ -48,8 +48,7 @@ To use this module in your Terraform configurations, you can include it as follo
 Feel free to contribute by opening issues or submitting pull requests. Your feedback and collaboration are welcome!
 
 ## Authors
-- [Your Name]
-- [Co-author's Name, if applicable]
+Your Name Replace '[License Name]' and '[Your Name]' with the appropriate license and your information. Feel free to expand this README with additional details or usage instructions as needed for your specific use case.
 
 ## License
 This project is licensed under the MIT License - see the [LICENSE](https://github.com/opz0/terraform-aws-vpc/blob/readme/LICENSE) file for details.
