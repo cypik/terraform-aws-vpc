@@ -32,7 +32,7 @@ To use this module in your Terraform configurations, you can include it as follo
       additional_cidr_block = ["172.3.0.0/16", "172.2.0.0/16"]
     }
    ```
-    
+
 ## Module Inputs
 
 - `name`: The name of the application.
