@@ -22,6 +22,7 @@ This Terraform module creates an AWS Virtual Private Cloud (VPC) along with addi
 
 To use this module in your Terraform configurations, you can include it as follows:
 
+
 ```hcl
     module "vpc" {
       source                = "git::https://github.com/opz0/terraform-aws-vpc.git?ref=v1.0.0"
@@ -30,10 +31,8 @@ To use this module in your Terraform configurations, you can include it as follo
       cidr_block            = "10.0.0.0/16"
       additional_cidr_block = ["172.3.0.0/16", "172.2.0.0/16"]
     }
-    ```
-
-3. Run `terraform init` and `terraform apply` to deploy the VPC.
-
+   ```
+    
 ## Module Inputs
 
 - `name`: The name of the application.
