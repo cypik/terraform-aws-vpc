@@ -1,65 +1,65 @@
 # terraform-aws-vpc
-# AWS Infrastructure Setup with Terraform
+# Terraform Infrastructure as Code (IaC) - AWS VPC Module
 
-This repository contains Terraform code to provision an Amazon Web Services (AWS) Virtual Private Cloud (VPC) with associated configurations. The infrastructure is designed to support an application environment for testing purposes.
+## Table of Contents
+- [Overview](#overview)
+- [Prerequisites](#prerequisites)
+- [Usage](#usage)
+- [Module Inputs](#module-inputs)
+- [Module Outputs](#module-outputs)
+- [Contributing](#contributing)
+- [Authors](#authors)
+- [License](#license)
+
+## Overview
+This Terraform module creates an AWS Virtual Private Cloud (VPC) along with additional configuration options.
 
 ## Prerequisites
-
-Before you begin, ensure you have the following requirements in place:
-
-- [Terraform](https://www.terraform.io/) installed on your local machine.
-- AWS account credentials configured, either using environment variables or AWS CLI configuration.
+- [Terraform](https://www.terraform.io/downloads.html) installed
+- AWS credentials configured with the necessary permissions
 
 ## Usage
 
-1. Clone this repository to your local machine:
+1. Ensure you have the required provider configured in your Terraform environment.
 
-   ```bash
-   git clone https://github.com/yourusername/your-repo.git
-   cd your-repo
-1. Initialize your Terraform workspace:
+    ```hcl
+    provider "aws" {
+      region = "us-west-1"  # Update with your desired region
+    }
+    ```
 
-   ```bash
-   terraform init
-2. Review and customize the "terraform.tfvars" file if necessary to set variables such as the VPC name, environment, and CIDR blocks.
+2. Use the module by referencing its source and providing the required variables.
 
-3. Deploy the infrastructure by running:
+    ```hcl
+    module "vpc" {
+      source                = "./../"  # Update with the correct path to the module
+      name                  = "app"
+      environment           = "test"
+      cidr_block            = "10.0.0.0/16"
+      additional_cidr_block = ["172.3.0.0/16", "172.2.0.0/16"]
+    }
+    ```
 
-   ```bash
-   terraform apply
-  You will be prompted to confirm the changes. Enter yes to proceed.
+3. Run `terraform init` and `terraform apply` to deploy the VPC.
 
-4. Once the Terraform apply process is complete, your AWS VPC and associated configurations will be provisioned.
+## Module Inputs
 
-## Configuration
-The Terraform code in this repository uses the following configurations:
+- `name`: The name of the application.
+- `environment`: The environment (e.g., "test", "production").
+- `cidr_block`: The CIDR block for the main VPC.
+- `additional_cidr_block`: Additional CIDR blocks for the VPC.
 
- - AWS Region: us-west-1
- 
--  VPC Name: app
- 
- - Environment: test
- 
- - VPC CIDR Block: 10.0.0.0/16
- 
- - Additional CIDR Blocks: 172.3.0.0/16, 172.2.0.0/16
- 
- You can modify these values in the terraform.tfvars file if necessary.
- 
+## Module Outputs
 
-# Cleanup
-To destroy the provisioned AWS infrastructure and resources, run
-   ```bash
-   terraform destroy
-   ```
-You will be prompted to confirm the destruction of the resources. Enter yes to proceed.
+- This module currently does not provide any outputs.
 
-# Contributing
-If you would like to contribute to this project, please follow these guidelines for code contributions and issue reporting.
+## Contributing
+Feel free to contribute by opening issues or submitting pull requests. Your feedback and collaboration are welcome!
 
-# License
-This project is licensed under the MIT License - see the [LICENSE](https://github.com/opz0/terraform-aws-vpc/blob/readme/LICENSE.txt) file for details.
+## Authors
+- [Your Name]
+- [Co-author's Name, if applicable]
 
-For more information on using Terraform with AWS, refer to the official [Terraform AWS provider documentatio](https://registry.terraform.io/providers/hashicorp/aws/latest/docs)
+## License
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/opz0/terraform-aws-vpc/blob/readme/LICENSE) file for details.
 
-Feel free to enhance this README with more details or relevant information about your project.
