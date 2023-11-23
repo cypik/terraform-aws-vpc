@@ -25,7 +25,7 @@ To use this module in your Terraform configurations, you can include it as follo
 
 ```hcl
     module "vpc" {
-      source                = "git::https://github.com/opz0/terraform-aws-vpc.git?ref=v1.0.0"
+      source                = "git::https://github.com/cypik/terraform-aws-vpc.git?ref=v1.0.0"
       name                  = "app"
       environment           = "test"
       cidr_block            = "10.0.0.0/16"
@@ -51,5 +51,5 @@ For detailed examples on how to use this module, please refer to the [Examples](
 Your Name Replace '[License Name]' and '[Your Name]' with the appropriate license and your information. Feel free to expand this README with additional details or usage instructions as needed for your specific use case.
 
 ## License
-This project is licensed under the MIT License - see the [LICENSE](https://github.com/opz0/terraform-aws-vpc/blob/master/LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/cypik/terraform-aws-vpc/blob/master/LICENSE) file for details.
 
