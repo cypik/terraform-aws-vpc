@@ -7,7 +7,7 @@
 - [Usage](#usage)
 - [Module Inputs](#module-inputs)
 - [Module Outputs](#module-outputs)
-- [Contributing](#contributing)
+- [Examples](#examples)
 - [Authors](#authors)
 - [License](#license)
 
@@ -44,8 +44,8 @@ To use this module in your Terraform configurations, you can include it as follo
 
 - This module currently does not provide any outputs.
 
-## Contributing
-Feel free to contribute by opening issues or submitting pull requests. Your feedback and collaboration are welcome!
+## Examples
+For detailed examples on how to use this module, please refer to the [Examples](https://github.com/cypik/terraform-aws-vpc/tree/master/_example) directory within this repository.
 
 ## Authors
 Your Name Replace '[License Name]' and '[Your Name]' with the appropriate license and your information. Feel free to expand this README with additional details or usage instructions as needed for your specific use case.
