@@ -45,7 +45,7 @@ To use this module in your Terraform configurations, you can include it as follo
 - This module currently does not provide any outputs.
 
 ## Examples
-For detailed examples on how to use this module, please refer to the [Examples](https://github.com/cypik/terraform-aws-vpc/tree/master/_example) directory within this repository.
+For detailed examples on how to use this module, please refer to the [Examples](https://github.com/cypik/terraform-aws-vpc/tree/master/example) directory within this repository.
 
 ## Authors
 Your Name Replace '[License Name]' and '[Your Name]' with the appropriate license and your information. Feel free to expand this README with additional details or usage instructions as needed for your specific use case.
