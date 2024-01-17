@@ -3,6 +3,7 @@
 
 ## Table of Contents
 - [Overview](#overview)
+- [Introduction](#Introduction)
 - [Prerequisites](#prerequisites)
 - [Usage](#usage)
 - [Examples](#examples)
@@ -13,6 +14,9 @@
 
 ## Overview
 This Terraform module creates an AWS Virtual Private Cloud (VPC) along with additional configuration options.
+
+## Introduction
+This Terraform module creates an AWS subnet (subnet) along with additional configuration options.
 
 ## Prerequisites
 - [Terraform](https://www.terraform.io/downloads.html) installed
