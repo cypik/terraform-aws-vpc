@@ -1,10 +1,9 @@
 # Terraform-aws-vpc
-# Terraform Infrastructure as Code (IaC) - AWS VPC Module
+# Terraform AWS Cloud VPC Module
 
 ## Table of Contents
 - [Overview](#overview)
 - [Introduction](#Introduction)
-- [Prerequisites](#prerequisites)
 - [Usage](#usage)
 - [Examples](#examples)
 - [Authors](#authors)
@@ -18,10 +17,6 @@ This Terraform module creates an AWS Virtual Private Cloud (VPC) along with addi
 ## Introduction
 This Terraform module creates an AWS subnet (subnet) along with additional configuration options.
 
-## Prerequisites
-- [Terraform](https://www.terraform.io/downloads.html) installed
-- AWS credentials configured with the necessary permissions
-
 ## Usage
 
 To get started, make sure you have configured your AWS provider. You can use the following code as a starting point:
@@ -29,7 +24,7 @@ To get started, make sure you have configured your AWS provider. You can use the
 
 ```hcl
     module "vpc" {
-      source                = "Cypik/aws/vpc"
+      source                = "cypik/vpc/aws"
       version               = "1.0.1"
       name                  = "app"
       environment           = "test"
