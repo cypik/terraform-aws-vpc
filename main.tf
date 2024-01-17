@@ -1,5 +1,5 @@
 module "labels" {
-  source      = "Cypik/aws/vpc"
+  source      = "cypik/labels/aws"
   version     = "1.0.1"
   name        = var.name
   environment = var.environment
