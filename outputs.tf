@@ -1,4 +1,4 @@
-output "id" {
+output "vpc_id" {
   value       = join("", aws_vpc.default[*].id)
   description = "The ID of the VPC."
 }
@@ -67,3 +67,53 @@ output "arn" {
   value       = join("", aws_flow_log.vpc_flow_log[*].arn)
   description = "Amazon Resource Name (ARN) of VPC"
 }
+
+output "dhcp_options_id" {
+  value       = join("", aws_vpc.default[*].dhcp_options_id)
+  description = "The ID of the DHCP options set associated with the VPC."
+}
+
+output "enable_dns_support" {
+  value       = join("", aws_vpc.default[*].enable_dns_support)
+  description = "Indicates whether DNS support is enabled."
+}
+
+output "enable_dns_hostnames" {
+  value       = join("", aws_vpc.default[*].enable_dns_hostnames)
+  description = "Indicates whether DNS hostnames are enabled."
+}
+
+output "instance_tenancy" {
+  value       = join("", aws_vpc.default[*].instance_tenancy)
+  description = "The tenancy of instances launched into the VPC."
+}
+
+output "igw_owner_id" {
+  value       = join("", aws_internet_gateway.default[*].owner_id)
+  description = "The ID of the AWS account that owns the Internet Gateway."
+}
+
+output "log_destination" {
+  value       = join("", aws_flow_log.vpc_flow_log[*].log_destination)
+  description = "The ARN of the destination for VPC flow logs."
+}
+
+output "log_format" {
+  value       = join("", aws_flow_log.vpc_flow_log[*].log_format)
+  description = "The log format for VPC flow logs."
+}
+
+output "log_group_name" {
+  value       = join("", aws_flow_log.vpc_flow_log[*].log_group_name)
+  description = "The name of the CloudWatch log group for VPC flow logs."
+}
+
+output "traffic_type" {
+  value       = join("", aws_flow_log.vpc_flow_log[*].traffic_type)
+  description = "The type of traffic captured (accept, reject, all)."
+}
+
+
+
+
+
