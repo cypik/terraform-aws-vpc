@@ -49,7 +49,7 @@ variable "cidr_block" {
 variable "additional_cidr_block" {
   type        = list(string)
   default     = []
-  description = "	List of secondary CIDR blocks of the VPC."
+  description = "List of secondary CIDR blocks of the VPC."
 }
 
 variable "ipv6_cidr_block" {
