@@ -24,11 +24,11 @@ variable "label_order" {
 
 variable "managedby" {
   type        = string
-  default     = "cypik"
-  description = "ManagedBy, eg 'cypik'"
+  default     = "info@cypik.com"
+  description = "ManagedBy, eg 'info@cypik.com'"
 }
 
-variable "enable" {
+variable "enabled" {
   type        = bool
   default     = true
   description = "Flag to control the vpc creation."
@@ -49,7 +49,7 @@ variable "cidr_block" {
 variable "additional_cidr_block" {
   type        = list(string)
   default     = []
-  description = "	List of secondary CIDR blocks of the VPC."
+  description = "List of secondary CIDR blocks of the VPC."
 }
 
 variable "ipv6_cidr_block" {
@@ -348,4 +348,10 @@ variable "block_http_traffic" {
   type        = bool
   default     = true
   description = "True when http traffic has to be blocked for S3."
+}
+
+variable "extra_tags" {
+  type        = map(string)
+  default     = {}
+  description = "A map of tags to assign to the resource. If configured with a provider default_tags configuration block present, tags with matching keys will overwrite those defined at the provider-level."
 }
