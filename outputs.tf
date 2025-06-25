@@ -103,11 +103,6 @@ output "log_format" {
   description = "The log format for VPC flow logs."
 }
 
-output "log_group_name" {
-  value       = join("", aws_flow_log.vpc_flow_log[*].log_group_name)
-  description = "The name of the CloudWatch log group for VPC flow logs."
-}
-
 output "traffic_type" {
   value       = join("", aws_flow_log.vpc_flow_log[*].traffic_type)
   description = "The type of traffic captured (accept, reject, all)."

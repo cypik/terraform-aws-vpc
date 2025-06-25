@@ -9,7 +9,6 @@ module "labels" {
   extra_tags  = var.extra_tags
 }
 
-
 #tfsec:ignore:aws-ec2-require-vpc-flow-logs-for-all-vpcs
 resource "aws_vpc" "default" {
   count                                = var.enabled ? 1 : 0
@@ -180,7 +179,8 @@ resource "aws_kms_key_policy" "example" {
       },
       {
         "Effect" : "Allow",
-        "Principal" : { "Service" : "logs.${data.aws_region.current.name}.amazonaws.com" },
+        "Principal" : { "Service" : "logs.${data.aws_region.current.id}.amazonaws.com"
+        },
         "Action" : [
           "kms:Encrypt*",
           "kms:Decrypt*",
@@ -339,7 +339,6 @@ resource "aws_flow_log" "vpc_flow_log" {
   }
   tags = module.labels.tags
 }
-
 
 resource "aws_default_network_acl" "default" {
   count                  = var.enabled && var.aws_default_network_acl ? 1 : 0

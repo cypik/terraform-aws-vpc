@@ -11,16 +11,12 @@
 - [Inputs](#inputs)
 - [Outputs](#outputs)
 
-## Overview
-This Terraform module creates an AWS Virtual Private Cloud (VPC) along with additional configuration options.
-
 ## Introduction
-This Terraform module creates an AWS subnet (subnet) along with additional configuration options.
+This Terraform module creates an AWS Virtual Private Cloud (VPC) along with additional configuration options.
 
 ## Usage
 
 To get started, make sure you have configured your AWS provider. You can use the following code as a starting point:
-
 
 ```hcl
     module "vpc" {
@@ -31,7 +27,7 @@ To get started, make sure you have configured your AWS provider. You can use the
       cidr_block            = "10.0.0.0/16"
       additional_cidr_block = ["172.3.0.0/16", "172.2.0.0/16"]
     }
-   ```
+```
 
 ## Examples
 For detailed examples on how to use this module, please refer to the [Examples](https://github.com/cypik/terraform-aws-vpc/tree/master/example) directory within this repository.
@@ -49,13 +45,13 @@ This project is licensed under the **MIT** License - see the [LICENSE](https://g
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.9.5 |
-| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >=5.67.0 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >=5.82.2 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | >=5.67.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | >=5.82.2 |
 
 ## Modules
 
@@ -170,7 +166,6 @@ This project is licensed under the **MIT** License - see the [LICENSE](https://g
 | <a name="output_ipv6_egress_only_igw_id"></a> [ipv6\_egress\_only\_igw\_id](#output\_ipv6\_egress\_only\_igw\_id) | The ID of the egress-only Internet Gateway |
 | <a name="output_log_destination"></a> [log\_destination](#output\_log\_destination) | The ARN of the destination for VPC flow logs. |
 | <a name="output_log_format"></a> [log\_format](#output\_log\_format) | The log format for VPC flow logs. |
-| <a name="output_log_group_name"></a> [log\_group\_name](#output\_log\_group\_name) | The name of the CloudWatch log group for VPC flow logs. |
 | <a name="output_tags"></a> [tags](#output\_tags) | A mapping of tags to assign to the resource. |
 | <a name="output_traffic_type"></a> [traffic\_type](#output\_traffic\_type) | The type of traffic captured (accept, reject, all). |
 | <a name="output_vpc_arn"></a> [vpc\_arn](#output\_vpc\_arn) | The ARN of the VPC |
