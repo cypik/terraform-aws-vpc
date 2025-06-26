@@ -44,7 +44,7 @@ This project is licensed under the **MIT** License - see the [LICENSE](https://g
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.9.5 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >=1.12.1 |
 | <a name="requirement_aws"></a> [aws](#requirement\_aws) | >=5.82.2 |
 
 ## Providers
@@ -155,6 +155,7 @@ This project is licensed under the **MIT** License - see the [LICENSE](https://g
 | Name | Description |
 |------|-------------|
 | <a name="output_arn"></a> [arn](#output\_arn) | Amazon Resource Name (ARN) of VPC |
+| <a name="output_cloudwatch_vpc_flow_log_id"></a> [cloudwatch\_vpc\_flow\_log\_id](#output\_cloudwatch\_vpc\_flow\_log\_id) | The name of the CloudWatch log group for VPC flow logs. |
 | <a name="output_dhcp_options_id"></a> [dhcp\_options\_id](#output\_dhcp\_options\_id) | The ID of the DHCP options set associated with the VPC. |
 | <a name="output_enable_dns_hostnames"></a> [enable\_dns\_hostnames](#output\_enable\_dns\_hostnames) | Indicates whether DNS hostnames are enabled. |
 | <a name="output_enable_dns_support"></a> [enable\_dns\_support](#output\_enable\_dns\_support) | Indicates whether DNS support is enabled. |
