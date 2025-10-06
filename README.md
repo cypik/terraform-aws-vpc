@@ -13,9 +13,25 @@
 
 ## Introduction
 This Terraform module creates an AWS Virtual Private Cloud (VPC) along with additional configuration options.
+Note:
+This module only provisions the VPC and its core network primitives .
+It does not create subnets, NAT Gateways, route tables beyond the default, or EC2 resources.
+You can compose it with subnet or other networking modules as needed.
+About VPC
+Amazon **Virtual Private Cloud (VPC)** is a logically isolated network within AWS where you can launch resources such as EC2
+instances, databases, and containers.  
+Key points about a VPC:
+- **CIDR Block**: Defines the IP address range for your network (for example `10.0.0.0/16`).
+- **Isolation & Control**: Provides complete control over routing, security groups, and network ACLs.
+- **Connectivity Options**: You can connect your VPC to the internet, to your on-premises data center via VPN/Direct Connect,
+  or keep it completely private.
+- **Scalability**: A VPC can have multiple subnets (public or private), though this module focuses **only on creating the VPC itself**—
+  you can add subnets, route tables, gateways, etc., in separate Terraform modules as needed.
+- ## AWS VPC Architecture
+
+![AWS VPC Diagram](https://aws.amazon.com/blogs/apn/wp-content/uploads/sites/7/2021/02/aws-vpc-diagram-example.png)
 
 ## Usage
-
 To get started, make sure you have configured your AWS provider. You can use the following code as a starting point:
 
 ```hcl
@@ -177,4 +193,13 @@ This project is licensed under the **MIT** License - see the [LICENSE](https://g
 | <a name="output_vpc_id"></a> [vpc\_id](#output\_vpc\_id) | The ID of the VPC. |
 | <a name="output_vpc_ipv6_association_id"></a> [vpc\_ipv6\_association\_id](#output\_vpc\_ipv6\_association\_id) | The association ID for the IPv6 CIDR block. |
 | <a name="output_vpc_main_route_table_id"></a> [vpc\_main\_route\_table\_id](#output\_vpc\_main\_route\_table\_id) | The ID of the main route table associated with this VPC. |
+
+Optional:
+
+Recommended Next Steps
+•	Pair this VPC module with subnet, route table, and NAT gateway modules for a complete network topology.
+
+•	Use Terraform Cloud/Enterprise for state management and collaboration.
+
+•	Implement security group and NACL rules following your organization’s compliance standards.
 <!-- END_TF_DOCS -->
