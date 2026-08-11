@@ -13,15 +13,31 @@
 
 ## Introduction
 This Terraform module creates an AWS Virtual Private Cloud (VPC) along with additional configuration options.
+Note:
+This module only provisions the VPC and its core network primitives .
+It does not create subnets, NAT Gateways, route tables beyond the default, or EC2 resources.
+You can compose it with subnet or other networking modules as needed.
+About VPC
+Amazon **Virtual Private Cloud (VPC)** is a logically isolated network within AWS where you can launch resources such as EC2
+instances, databases, and containers.
+Key points about a VPC:
+- **CIDR Block**: Defines the IP address range for your network (for example `10.0.0.0/16`).
+- **Isolation & Control**: Provides complete control over routing, security groups, and network ACLs.
+- **Connectivity Options**: You can connect your VPC to the internet, to your on-premises data center via VPN/Direct Connect,
+  or keep it completely private.
+- **Scalability**: A VPC can have multiple subnets (public or private), though this module focuses **only on creating the VPC itself**—
+  you can add subnets, route tables, gateways, etc., in separate Terraform modules as needed.
+- ## AWS VPC Architecture
+
+![AWS VPC Diagram](https://aws.amazon.com/blogs/apn/wp-content/uploads/sites/7/2021/02/aws-vpc-diagram-example.png)
 
 ## Usage
-
 To get started, make sure you have configured your AWS provider. You can use the following code as a starting point:
 
 ```hcl
     module "vpc" {
       source                = "cypik/vpc/aws"
-      version               = "1.0.3"
+      version               = "1.0.4"
       name                  = "app"
       environment           = "test"
       cidr_block            = "10.0.0.0/16"
@@ -44,20 +60,20 @@ This project is licensed under the **MIT** License - see the [LICENSE](https://g
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >=1.12.1 |
-| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >=5.82.2 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.15.8 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 6.58.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | >=5.82.2 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 6.58.0 |
 
 ## Modules
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_labels"></a> [labels](#module\_labels) | cypik/labels/aws | 1.0.2 |
+| <a name="module_labels"></a> [labels](#module\_labels) | cypik/labels/aws | 1.0.3 |
 
 ## Resources
 
