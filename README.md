@@ -37,7 +37,7 @@ To get started, make sure you have configured your AWS provider. You can use the
 ```hcl
     module "vpc" {
       source                = "cypik/vpc/aws"
-      version               = "1.0.4"
+      version               = "1.0.5"
       name                  = "app"
       environment           = "test"
       cidr_block            = "10.0.0.0/16"
@@ -73,7 +73,7 @@ This project is licensed under the **MIT** License - see the [LICENSE](https://g
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_labels"></a> [labels](#module\_labels) | cypik/labels/aws | 1.0.3 |
+| <a name="module_labels"></a> [labels](#module\_labels) | cypik/labels/aws | 1.0.4 |
 
 ## Resources
 
